@@ -187,9 +187,10 @@ class Arquivo:
             det_compra = linhas[listar-1].split(';')
             det_compra[5].replace('\n', '')
             print('~'*50)
-            print(f'\033[33mA compra {listar} foi realizada por {det_compra[1]}'
-                  f'\nO veículo é uma {det_compra[4]} com placa {det_compra[5]}'
+            print(f'\033[33mA compra {listar} foi realizada por \033[34m{det_compra[1]}\033[33m'
+                  f'\nO veículo é uma \033[34m{det_compra[4]}\033[33m com placa \033[34m{det_compra[5]}\033[33m'
                   f'Agradecemos pela compra. Esperamos vê-lo novamente.\033[m')
+            input('Pressione ENTER para continuar')
 
 
 class Cliente(Arquivo):
