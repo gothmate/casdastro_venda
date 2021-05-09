@@ -1,4 +1,4 @@
-from AP2_melhorado.interface import cabecalho, linha, menu
+from cadastro_venda.interface import cabecalho, linha, menu
 from random import randint
 
 
