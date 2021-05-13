@@ -1,4 +1,4 @@
-from cadastro_venda.interface import cabecalho, linha, menu
+from AP2_melhorado.interface import cabecalho, linha, menu
 from random import randint
 
 
@@ -132,9 +132,45 @@ class Arquivo:
             print('\033[31mERRO! Esse ID não existe.\033[m')
 
     def registra_venda(self):
-        cliente = input('Digite o ID do comprador: ')
-        veiculo = input('Digite o ID do veículo: ')
+        id = False
+        while True:
+            cliente = input('Digite o ID do comprador [0] para cancelar: ')
+            if cliente == '0':
+                break
+            with open('clientes.txt', 'r') as cli:
+                linhas = cli.readlines()
+                for i in linhas:
+                    if i.split(';')[0] == cliente:
+                        id = True
+            if id == True:
+                print('Cliente adicionado na Nota de Compra.')
+                id = False
+                break
+            else:
+                print("ID não existe.")
+
+        while True:
+            if cliente == '0':
+                break
+            veiculo = input('Digite o ID do veículo [0] para cancelar: ')
+            if veiculo == '0':
+                break
+            with open('veiculos.txt', 'r') as vei:
+                linhas = vei.readlines()
+                for i in linhas:
+                    if i.split(';')[0] == veiculo:
+                        id = True
+            if id == True:
+                print('Veículo adicionado na Nota de Compra.')
+                id = False
+                break
+            else:
+                print("ID não existe.")
         try:
+            if cliente == '0':
+                return
+            if veiculo == '0':
+                return
             # Copia os dados do cliente comprador pro arquivo temp
             with open('clientes.txt', 'r') as comprador_file:
                 linhas = comprador_file.readlines()
@@ -181,17 +217,19 @@ class Arquivo:
         a.close()
 
     def listar_venda(self):
-        listar = int(input('Listar detalhes da venda por número: '))
-        with open('vendas.txt', 'r') as vendas:
-            linhas = vendas.readlines()
-            det_compra = linhas[listar-1].split(';')
-            det_compra[5].replace('\n', '')
-            print('~'*50)
-            print(f'\033[33mA compra {listar} foi realizada por \033[34m{det_compra[1]}\033[33m'
-                  f'\nO veículo é uma \033[34m{det_compra[4]}\033[33m com placa \033[34m{det_compra[5]}\033[33m'
-                  f'Agradecemos pela compra. Esperamos vê-lo novamente.\033[m')
-            input('Pressione ENTER para continuar')
-
+        try:
+            listar = int(input('Listar detalhes da venda por número: '))
+            with open('vendas.txt', 'r') as vendas:
+                linhas = vendas.readlines()
+                det_compra = linhas[listar-1].split(';')
+                det_compra[5].replace('\n', '')
+                print('~'*50)
+                print(f'\033[33mA compra {listar} foi realizada por \033[34m{det_compra[1]}\033[33m'
+                      f'\nO veículo é uma \033[34m{det_compra[4]}\033[33m com placa \033[34m{det_compra[5]}\033[33m'
+                      f'Agradecemos pela compra. Esperamos vê-lo novamente.\033[m')
+                input('Pressione ENTER para continuar')
+        except:
+            print('\033[31mVocê não escolheu uma venda válida\033[m')
 
 class Cliente(Arquivo):
     def __init__(self, id, nome, idade, nome_arquivo='clientes.txt'):
