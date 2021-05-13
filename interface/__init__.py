@@ -31,4 +31,3 @@ def menu(msg, lista):
     print(linha())
     opc = leiaInt('\033[33mSua Opção: \033[m')
     return opc
-
