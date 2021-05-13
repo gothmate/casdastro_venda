@@ -46,4 +46,3 @@ while True:
     elif resposta == 7:
         print('Obrigado por utilizar o programa.')
         break
-        
