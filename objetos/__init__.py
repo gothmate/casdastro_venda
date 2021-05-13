@@ -1,4 +1,4 @@
-from AP2_melhorado.interface import cabecalho, linha, menu
+from interface import cabecalho, linha, menu
 from random import randint
 
 
@@ -105,29 +105,44 @@ class Arquivo:
             return
 
     def apagar_item(self):
+        id = False
         try:
-            excluir = input(f'Que ID deseja excluir? ')
-            if not excluir.isnumeric():
-                print('\033[31mERRO! Não é um número.\033[m')
-            else:
-                sure = input(f'Tem certeza que deseja excluir ID {excluir} [s][n]? ').lower()
-                if sure == 'n':
-                    return
-                with open(self.nome_arquivo, 'r+') as f:
-                    linhas = f.readlines()
-                    f.seek(0)
-                    for l in linhas:
-                        if excluir not in l:
-                            f.write(l)
-                        else:
-                            print('Item excluído com sucesso.')
-                    f.truncate()
+            while True:
+                excluir = input(f'Que ID deseja excluir? ')
+                if not excluir.isnumeric():
+                    print('\033[31mERRO! Não é um número.\033[m')
+                elif excluir == '0':
+                    break
+                with open(self.nome_arquivo, 'r') as ex:
+                    linhas = ex.readlines()
+                    for i in linhas:
+                        if i.split(';')[0] == excluir:
+                            id = True
+                if id == True:
+                    print(f'ID{excluir} encontrado.')
+                    id = False
+                    break
+                else:
+                    print('\033[31mID não existe\033[m')
 
-                    if not sure == 'n':
-                        print('Solicitação realizada com sucesso')
-                        print()
+            sure = input(f'Tem certeza que deseja \033[31mexcluir ID\033[m {excluir} \033[31m[s]\033[m[n]? ').lower()
+            if sure == 'n':
+                return
+            with open(self.nome_arquivo, 'r+') as f:
+                linhas = f.readlines()
+                f.seek(0)
+                for l in linhas:
+                    if excluir not in l:
+                        f.write(l)
                     else:
-                        return
+                        print('Item excluído com sucesso.')
+                f.truncate()
+
+                if not sure == 'n':
+                    print('Solicitação realizada com sucesso')
+                    print()
+                else:
+                    return
         except:
             print('\033[31mERRO! Esse ID não existe.\033[m')
 
